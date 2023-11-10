@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro' 
+
+
+let res = await fetch("https://norian.studio/wp-json/wp/v2/dinos")
+let posts = await res.json();
+
+
+
+
+
+---
+
+<Layout title="Welcome to Astro.">
+	<main> 
+		{
+			posts.map( ( p )=>(
+				<article class="bebas">
+					<a href={p.slug}>
+						 {p.title.rendered}
+					</a>
+				</article>
+			) )
+		}
+	</main>
+</Layout>
+
+<style is:global>	  
+
+
+</style>

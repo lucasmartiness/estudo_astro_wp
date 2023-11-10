@@ -1,0 +1,50 @@
+---
+import type { GetStaticPaths } from "astro";
+import Layout from '../layouts/Layout.astro' 
+
+import {Image} from 'astro:assets'
+
+
+// gerar toda estrutura de uris wordpress
+export async function getStaticPaths (){
+
+    let res = await fetch("https://norian.studio/wp-json/wp/v2/dinos")
+    let posts = await res.json();
+
+    return posts.map( p => ({
+        params: { slug: p.slug },
+        props: { post: p },
+    }))
+
+}  
+
+
+
+
+const {slug} = Astro.params;
+
+let res = await fetch(`https://norian.studio/wp-json/wp/v2/dinos?slug=${slug}&_embed`)
+let [post] = await res.json();
+
+ 
+
+---
+
+
+<Layout title="Welcome to Astro.">
+	<main class="bebas">
+
+        <!-- loading="lazy" -->
+            <Image 
+                alt={post.title.rendered} 
+                
+                densities={[1.5, 2]} 
+                src={post._embedded['wp:featuredmedia']['0'].media_details.sizes.medium.source_url} 
+                width={post._embedded['wp:featuredmedia']['0'].media_details.sizes.medium.width}
+                height={post._embedded['wp:featuredmedia']['0'].media_details.sizes.medium.height}
+                />   
+		    <h2> {post.title.rendered} </h2>
+             
+           <Fragment set:html={post.content.rendered} />
+	</main>
+</Layout>

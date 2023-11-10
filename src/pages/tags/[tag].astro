@@ -1,0 +1,21 @@
+---
+import type { GetStaticPaths } from "astro";
+import Layout from '../../layouts/Layout.astro' 
+
+export async function getStaticPaths (){
+    return [
+        {params: {tag:"estudo"}},
+        {params: {tag:"teste"}},
+        {params: {tag:"batata"}},
+    ];
+}  
+
+const {tag} = Astro.params;
+---
+
+
+<Layout title="Welcome to Astro.">
+	<main>
+		 {tag}
+	</main>
+</Layout>

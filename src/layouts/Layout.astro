@@ -1,0 +1,43 @@
+---
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
+<style is:global>
+	 
+	html {
+		font-family: system-ui, sans-serif;
+		background-size: 224px;
+	}
+ 
+	/* Registra nossa família de fontes customizada e diz ao navegador aonde encontrá-la. */
+@font-face {
+  font-family: 'Bebas';
+  src: url('/fonts/BebasNeue-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+	 
+body,html{
+	font-family: 'Bebas' , serif;
+}
+
+</style>
