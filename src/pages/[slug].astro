@@ -8,7 +8,7 @@ import {Image} from 'astro:assets'
 // gerar toda estrutura de uris wordpress
 export async function getStaticPaths (){
 
-    let res = await fetch("https://norian.studio/wp-json/wp/v2/dinos")
+    let res = await fetch("http://lucasmmteste.68ed8b38.configr.cloud/wp-json/wp/v2/posts")
     let posts = await res.json();
 
     return posts.map( p => ({
@@ -23,7 +23,7 @@ export async function getStaticPaths (){
 
 const {slug} = Astro.params;
 
-let res = await fetch(`https://norian.studio/wp-json/wp/v2/dinos?slug=${slug}&_embed`)
+let res = await fetch(`http://lucasmmteste.68ed8b38.configr.cloud/wp-json/wp/v2/posts?slug=${slug}&_embed`)
 let [post] = await res.json();
 
  
@@ -35,7 +35,8 @@ let [post] = await res.json();
 	<main class="bebas">
 
         <!-- loading="lazy" -->
-            <Image 
+            { ( post._embedded['wp:featuredmedia'] ) && 
+             <Image 
                 alt={post.title.rendered} 
                 
                 densities={[1.5, 2]} 
@@ -43,6 +44,8 @@ let [post] = await res.json();
                 width={post._embedded['wp:featuredmedia']['0'].media_details.sizes.medium.width}
                 height={post._embedded['wp:featuredmedia']['0'].media_details.sizes.medium.height}
                 />   
+            }
+           
 		    <h2> {post.title.rendered} </h2>
              
            <Fragment set:html={post.content.rendered} />
