@@ -8,7 +8,7 @@ import {Image} from 'astro:assets'
 // gerar toda estrutura de uris wordpress
 export async function getStaticPaths (){
 
-    let res = await fetch("http://lucasmmteste.68ed8b38.configr.cloud/wp-json/wp/v2/posts")
+    let res = await fetch("https://webapp368605.ip-104-237-139-56.cloudezapp.io//wp-json/wp/v2/posts")
     let posts = await res.json();
 
     return posts.map( p => ({
@@ -23,7 +23,7 @@ export async function getStaticPaths (){
 
 const {slug} = Astro.params;
 
-let res = await fetch(`http://lucasmmteste.68ed8b38.configr.cloud/wp-json/wp/v2/posts?slug=${slug}&_embed`)
+let res = await fetch(`https://webapp368605.ip-104-237-139-56.cloudezapp.io/wp-json/wp/v2/posts?slug=${slug}&_embed`)
 let [post] = await res.json();
 
  
