@@ -7,8 +7,8 @@ export default defineConfig({
         remotePatterns: [{ protocol: "https" }],
       },
       compressHTML: false,
-      // output: 'server',
-      // adapter: netlify(),
+      output: 'server',
+      adapter: netlify(),
 });
 
  

@@ -7,17 +7,17 @@ import {Image} from 'astro:assets'
 
 // gerar toda estrutura de uris wordpress PARA MODO ESTÁTICO
 // para modo dinâmico não preciso dele mas não custa nada ter ele aqui
-export async function getStaticPaths (){
+// export async function getStaticPaths (){
 
-    let res = await fetch("https://33giga.com.br//wp-json/wp/v2/posts")
-    let posts = await res.json();
+//     let res = await fetch("https://33giga.com.br//wp-json/wp/v2/posts")
+//     let posts = await res.json();
 
-    return posts.map( p => ({
-        params: { slug: p.slug },
-        props: { post: p },
-    }))
+//     return posts.map( p => ({
+//         params: { slug: p.slug },
+//         props: { post: p },
+//     }))
 
-}  
+// }  
 
 
 
