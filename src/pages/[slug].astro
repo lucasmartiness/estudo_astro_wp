@@ -5,6 +5,40 @@ import Layout from '../layouts/Layout.astro'
 import {Image} from 'astro:assets'
 
 
+
+const {slug} = Astro.params;
+
+
+async function  get_post( slug ){
+
+    try{
+        let res = await fetch(`https://33giga.com.br/wp-json/wp/v2/posts?slug=${slug}&_embed`)
+        let [data] = await res.json();
+
+        return await  data;
+    }catch( e ){ 
+        return "";
+    }
+}
+async function  get_galeria( slug ){
+
+    try{
+
+        let res = await fetch(`https://33giga.com.br/wp-json/gallery_plugin/v1/post/${slug}`)
+        let data = await res.json();
+        
+        return  await data;
+    }catch( e ){
+
+        return "";
+    }
+}
+
+let post = await get_post(slug)
+let galeria =  await get_galeria( slug )
+ 
+
+console.log(     galeria[0]  )
 // gerar toda estrutura de uris wordpress PARA MODO ESTÁTICO
 // para modo dinâmico não preciso dele mas não custa nada ter ele aqui
 // export async function getStaticPaths (){
@@ -18,23 +52,18 @@ import {Image} from 'astro:assets'
 //     }))
 
 // }  
-
-
-
-
-const {slug} = Astro.params;
-
-let res = await fetch(`https://33giga.com.br/wp-json/wp/v2/posts?slug=${slug}&_embed`)
-let [post] = await res.json();
-
  
-
 ---
 
-
+<style is:global>
+    .owl-carousel{ display: none;}
+</style>
 <Layout title="Welcome to Astro.">
+    <div>
+        <a href="/">home</a>
+    </div>
 	<main class="bebas">
-
+            <p>{ post.id }</p>
         <!-- loading="lazy" -->
             { ( post._embedded['wp:featuredmedia'] ) && 
              <Image 
@@ -48,7 +77,19 @@ let [post] = await res.json();
             }
            
 		    <h2> {post.title.rendered} </h2>
+            <Fragment set:html={post.content.rendered} />
              
-           <Fragment set:html={post.content.rendered} />
-	</main>
+           
+            <br><br>
+
+            {galeria && (  
+                <h3>Galeria por api </h3>
+            )}
+            { galeria && galeria.map( e => ( <img src={e} />  <br>) ) }
+            
+
+
+
+        </main>
 </Layout>
+

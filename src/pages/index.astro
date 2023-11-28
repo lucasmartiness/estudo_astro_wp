@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro'
 import {Image} from 'astro:assets'
 
 
-let res = await fetch("https://33giga.com.br/wp-json/wp/v2/posts")
+let res = await fetch("https://33giga.com.br/wp-json/wp/v2/posts/?_embed=wp:featuredmedia")
 let posts = await res.json();
 
 
@@ -18,10 +18,30 @@ import teste from "../imgs/teste.jpg"
 
 <Layout title="Welcome to Astro.">
 	<Image src={teste} alt='anuncio' /> 
+
+
+	<div>
+		<br><br>
+		<a href="/vaio-tl-10">esse link tem a galeria</a>
+		<br><br>
+		<br><br>
+
+	</div>
 	<main> 
 		{
 			posts.map( ( p )=>(
 				<article class="bebas">
+					{ ( p._embedded['wp:featuredmedia'] ) && 
+							<Image 
+								alt={p.title.rendered} 
+								
+								densities={[1.5, 2]} 
+								src={p._embedded['wp:featuredmedia']['0'].media_details.sizes.medium.source_url} 
+								width={p._embedded['wp:featuredmedia']['0'].media_details.sizes.medium.width}
+								height={p._embedded['wp:featuredmedia']['0'].media_details.sizes.medium.height}
+							/>   
+					}
+					<br>
 					<a href={p.slug}>
 						 {p.title.rendered}
 					</a>
