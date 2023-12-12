@@ -6,20 +6,47 @@ import {Image} from 'astro:assets'
 let res = await fetch("https://33giga.com.br/wp-json/wp/v2/posts/?_embed=wp:featuredmedia")
 let posts = await res.json();
 
+function url_relativa( x )
+{
+
+	return x
+		.replace("https://33giga.com.br","")
+
+}
+let res2 = await fetch("https://33giga.com.br/wp-json/myroutes/menu");
+let menu = await res2.json();
+
+
 
 posts = posts.slice( 0 , 3 )
+
+
+
 import teste from "../imgs/teste.jpg"
  
-
-
-
 
 ---
 
 <Layout title="Welcome to Astro.">
+
+	<div>
+		{
+			menu.map( m => (
+				<div>
+					<a href={url_relativa( m.url ) }>{m.title}</a>
+				</div>
+			) )
+		}
+	</div>
+	
 	<Image src={teste} alt='anuncio' /> 
 
 
+	<form action="/busca">
+		<input type="text" name="search">
+		<button>buscar</button>
+	</form>
+	
 	<div>
 		<br><br>
 		<a href="/vaio-tl-10">esse link tem a galeria</a>

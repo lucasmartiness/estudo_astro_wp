@@ -1,0 +1,52 @@
+---
+import Layout from '../../layouts/Layout.astro' 
+
+import {Image} from 'astro:assets'
+
+ 
+
+let s = Astro.url.searchParams.get('search');
+
+console.log( s ) 
+
+ 
+let res = await fetch(`https://33giga.com.br//wp-json/wp/v2/posts/?search=${s}&_embed`)
+let posts = await res.json();
+ 
+
+---
+
+
+<Layout title="Welcome to Astro.">
+	<main class="bebas">
+
+        <p>Você está buscando por: {s}</p>
+        <form action="/busca">
+            <input type="text" name="search" value={s}>
+            <button>buscar</button>
+        </form>
+
+        <main> 
+        {
+            posts.map( ( p )=>(
+                <article class="bebas">
+                    <a href={p.slug}>
+                        
+                        <Image 
+                            alt={p.title.rendered} 
+                            
+                            densities={[1.5, 2]} 
+                            src={p._embedded['wp:featuredmedia']['0'].media_details.sizes.medium.source_url} 
+                            width={p._embedded['wp:featuredmedia']['0'].media_details.sizes.medium.width}
+                            height={p._embedded['wp:featuredmedia']['0'].media_details.sizes.medium.height}
+                        />   
+                        <br>
+                            {p.title.rendered}
+                    </a>
+                </article>
+            ) )
+        }
+    </main>
+
+	</main>
+</Layout>

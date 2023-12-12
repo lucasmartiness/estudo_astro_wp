@@ -5,6 +5,27 @@
 add_theme_support( 'post-thumbnails' );
 
 
+function register_my_menus() {
+    register_nav_menus(
+      array(
+        'header-menu' => __( 'Header Menu' )
+       )
+     );
+   }
+add_action( 'init', 'register_my_menus' );
+
+function get_menu() {
+    # Change 'menu' to your own navigation slug.
+    return wp_get_nav_menu_items('menu-astro');
+}
+
+add_action( 'rest_api_init', function () {
+        register_rest_route( 'myroutes', '/menu', array(
+        'methods' => 'GET',
+        'callback' => 'get_menu',
+    ) );
+} );
+
 
 function get_post_by_slug($slug){
 
