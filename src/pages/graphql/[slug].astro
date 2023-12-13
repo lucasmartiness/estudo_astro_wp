@@ -1,0 +1,41 @@
+---
+import Layout from '../../layouts/Layout.astro' 
+import {getPost,getMenu} from '../../fetchApi'
+import {Image} from 'astro:assets'
+
+
+const {slug} = Astro.params;
+
+let menu = await getMenu( );
+console.log(menu)
+
+
+let post = await getPost(slug);
+
+
+ 
+
+---
+<Layout title="Welcome to Astro.">
+    <main>
+        <div>
+            <a href="/graphql">home</a>
+        </div>
+        {
+            (post.featuredImage && 
+                <Image 
+                    densities={[1.5, 2]} 
+                    src={post.featuredImage.node.mediaItemUrl}
+                    alt={post.featuredImage.node.altText} 
+                    width={post.featuredImage.node.mediaDetails.width}
+                    height={post.featuredImage.node.mediaDetails.height}
+                />
+                    
+            )
+        }
+        <p>{ post.postId }</p>
+        <h2> {post.title} </h2>
+        <Fragment set:html={post.content} />
+
+    </main>
+</Layout>

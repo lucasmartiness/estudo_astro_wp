@@ -1,0 +1,46 @@
+---
+import Layout from '../../layouts/Layout.astro' 
+import {getPostsHome} from '../../fetchApi'
+
+import {Image} from 'astro:assets'
+ 
+let posts = await getPostsHome();
+
+
+console.log(posts)
+
+---
+<Layout title="Welcome to Astro.">
+  <form action="/graphql/busca">
+      <input type="text" name="search">
+      <button>buscar</button>
+	</form>
+
+  <main> 
+
+    <h1>Graph ql ler 10 posts</h1>
+		{
+			posts.map( ( post )=>(
+				<article class="bebas">
+					{
+            (post.featuredImage && 
+                <Image 
+                    densities={[1.5, 2]} 
+                    src={post.featuredImage.node.mediaItemUrl}
+                    alt={post.featuredImage.node.altText} 
+                    width={post.featuredImage.node.mediaDetails.width}
+                    height={post.featuredImage.node.mediaDetails.height}
+                />
+                    
+            )
+        }
+					<br>
+					<a href={"/graphql/"+post.slug}>
+            {post.title} 
+					</a>
+				</article>
+			) )
+		}
+	</main>
+ 
+</Layout>

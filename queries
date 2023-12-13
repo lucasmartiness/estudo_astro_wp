@@ -1,0 +1,49 @@
+ler todos os posts title e excerpt e imagem
+query MyQuery2 {
+  posts {
+    nodes {
+      excerpt
+      title
+       featuredImage {
+            node {
+                    mediaItemUrl
+                    mediaDetails {
+                    height
+                    width
+                }
+            altText
+            }
+        }
+    }
+  }
+}
+
+
+
+ler single
+
+query MyQuery2 {
+  post: postBy(uri: "fixar-mensagem-em-conversas-do-whatsapp") {
+    content
+    date
+    id
+    excerpt
+    title
+    uri
+    author {
+      node {
+        name
+      }
+    }
+    featuredImage {
+      node {
+        mediaItemUrl
+        mediaDetails {
+          height
+          width
+        }
+        altText
+      }
+    }
+  }
+}
